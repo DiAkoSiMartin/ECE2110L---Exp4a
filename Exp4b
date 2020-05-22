@@ -1,0 +1,54 @@
+fprintf('This is to solve for the value of f(x) given x and n through the use of Least-Square Method \n \n');
+X = input ('Please enter the value of x = ');
+
+tableX = [1;2;3;4]; 
+tableY = [1;-2;2;3];
+
+%for the Data Table
+x1 = sum(tableX); %summation of X
+x2 = (tableX).^2; %X values squared
+x3 = (tableX).^3; %X values cubed
+x4 = (tableX).^4; %X values to the 4th
+x5 = (tableX).^5; %X values to the 5th
+x6 = (tableX).^6; %X values to the 6th
+y = sum(tableY); %summation of Y
+xy = (tableX).*(tableY); %X * Y
+x2y = x2.*tableY; %X^2 values * Y
+x2sum = sum(x2); %summation of squared X values
+x3sum = sum(x3); %summation of cubed X values
+x4sum = sum(x4); %summation of to the 4th X values
+x5sum = sum(x5); %summation of to the 5th X values
+x6sum = sum(x6); %summation of to the 6th X values
+xysum = sum(xy); %summation of XY
+x2ysum = sum(x2y); %summation of (X^2 values * Y)
+x3ysum = sum((x3).*tableY); %summation of (X^3 values * Y)
+
+%for the linear Curve Fit:
+syms a1 b1
+e1 = [y == a1*x1 + b1*(4), xysum == a1*x2sum + b1*x1];
+arr1 = [a1 b1];
+[a1, b1] = solve(e1,arr1);
+
+Lin = a1*X + b1; %linear model function
+fprintf('The value of f(%.3f) using Linear Approximation is %.3f.\n',X,Lin);
+
+
+%for the Quadratic Curve Fit:
+syms a2 b2 c2
+e2 = [y == a2*x2sum + b2*x1 + c2*(4), xysum == a2*x3sum + b2*x2sum + c2*x1, x2ysum == a2*x4sum + b2*x3sum + c2*x2sum];
+arr2 = [a2 b2 c2];
+[a2, b2, c2] = solve(e2,arr2);
+
+Quad = a2*(X^2) + b2*X + c2; %quadratic model function
+fprintf('The value of f(%.3f) using Quadratic Approximation is %.3f.\n',X,Quad);
+
+
+%for the Cubic Curve Fit:
+syms a3 b3 c3 d3
+e3 = [y == a3*x3sum + b3*x2sum + c3*x1 + d3*(4), xysum == a3*x4sum + b3*x3sum + c3*x2sum + d3*x1, x2ysum == a3*x5sum + b3*x4sum + c3*x3sum + d3*x2sum, x3ysum == a3*x6sum + b3*x5sum + c3*x4sum + d3*x3sum];
+arr3 = [a3 b3 c3 d3];
+[a3, b3, c3, d3] = solve(e3,arr3);
+
+Cub = a3*(X^3) + b3*(X^2) + c3*X + d3; %cubic model function
+fprintf('The value of f(%.3f) using Cubic Approximation is %.3f.\n',X,Cub);
+
