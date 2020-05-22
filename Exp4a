@@ -1,0 +1,134 @@
+fprintf('This is to solve for the value of f(x) given x and n through the use of Lagrange Method \n \n');
+X = input ('Please enter the value of x = ');
+
+%for errors in the X
+while X <=1 || X >= 4
+    fprintf('\n')
+    disp('Not a valid input (note: enter a value between 1 and 4)') %to prompt the user of the intervals
+    X = input ('Please enter the value of x = ');
+end
+
+N = input ('Please enter the number of data points (n) = ');
+fprintf('\n')
+
+%for errors in the n
+while N < 2 || N > 4
+    fprintf('\n')
+    disp('Not a valid input (note: enter a value from 2 to 4)') %to prompt the user of the intervals
+    N = input ('Please enter the number of data points (n) = ');
+    fprintf('\n')
+end
+
+tableX = [1;2;3;4];
+tableY = [1;-2;2;3];
+
+
+% at n = 2
+if N == 2
+    lowX1 = floor(X);  %to get the value lower than x 
+    lowY1 = tableY(lowX1); %to get the y value of the value lower than x
+    highX1 = ceil(X);  %to get the value higher than x 
+    highY1 = tableY(highX1); %to get the y value of the value lower than x
+    
+    %for solving:
+    weighlowX1 = (X-lowX1)/(highX1-lowX1); %to get the weighing fxn of the lower value
+    weighhighX1 = (X-highX1)/(lowX1-highX1); %to get the weighing fxn of the lower value
+    Y = (lowY1*weighlowX1)+(highY1*weighhighX1); %to get the y(x)
+    
+    fprintf('The value of f(%.3f) is %.3f @ %.0f <= x <= %.0f \n',X,Y,lowX1,highX1);
+end
+
+
+%at n=3
+if N == 3
+   lowX1 = floor(X);
+    if (lowX1+1 == 4) || (abs((lowX1-1)-X) <= abs((lowX1+2)-X)) %to adjust the lowX value id the highest value reaches 4
+        lowX1 = lowX1-1;
+    end
+    
+    %listing the x values:
+    i = 1;
+    while i < 4 
+        Xlist(i) = tableX(lowX1);
+        weighlowX1(i) = tableY(lowX1);
+        lowX1 = lowX1+1;
+        i = i+1;
+    end
+
+    Y = 0;
+    ii = 1;
+    while ii < 4
+        ii2 = 1;
+        denom = 1;
+        num = 1;
+        
+        while ii2 < 4 
+            %skip if denominator = 0
+            if (Xlist(ii) - Xlist(ii2)) ~= 0 
+                num = num * (X - Xlist(ii2));
+                denom = denom * (Xlist(ii) - Xlist(ii2));
+            end
+            ii2 = ii2 + 1;
+        end
+        
+        %for solving:
+        weighhighX1 = num/denom;
+        Y = Y + weighlowX1(ii)*weighhighX1;
+        ii = ii + 1;
+    end
+    
+    %to fix the range
+    if lowX1 > highX1
+        a = highX1;
+        b = lowX1;
+    else
+        a = lowX1;
+        b = highX1;
+    end
+    fprintf('The value of f(%.3f) is %.3f @ %.0f <= x <= %.0f \n',X,Y, a, b);
+end
+
+
+%at n = 4
+if N == 4
+    i = 1;
+    while i <= 4  %to get all the values of x since n = 4
+        Xlist(i) = tableX(i);
+        weighlowX1(i) = tableY(i);
+        i=i+1;
+    end
+    
+    %for solving:
+    Y = 0;
+    ii = 1;
+    while ii <= 4 
+        ii2 = 1;
+        num = 1;
+        denom = 1;
+        
+        while ii2 <= 4 
+            %skip if denominator = 0
+            if (Xlist(ii) - Xlist(ii2)) ~= 0 
+                num = num * (X - Xlist(ii2));
+                denom = denom * (Xlist(ii) - Xlist(ii2));
+            end
+            ii2 = ii2 + 1;
+        end
+        
+        %for the last solving:
+        weighhighX1 = num/denom;
+        Y = Y + weighlowX1(ii)*weighhighX1;
+        ii = ii + 1;
+    end
+ 
+    %to fix the range
+    if lowX1 > highX1
+        a = highX1;
+        b = lowX1;
+    else
+        a = lowX1;
+        b = highX1;
+    end
+    
+    fprintf('The value of f(%.3f) is %.3f @ %.0f <= x <= %.0f \n',X,Y, a, b); 
+end
