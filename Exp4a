@@ -1,20 +1,22 @@
-fprintf('This is to solve for the value of f(x) given x and n through the use of Lagrange Method \n \n');
-X = input ('Please enter the value of x = ');
+fprintf('Solving of the value f(x), given x and n using Lagrange Method \n \n');
+X = input ('Enter the value of x = ');
 
-%for errors in the X
+%Setting up X
 while X <=1 || X >= 4
     fprintf('\n')
-    disp('Not a valid input (note: enter a value between 1 and 4)') %to prompt the user of the intervals
-    X = input ('Please enter the value of x = ');
+    disp('Note: enter a value between 1 and 4') 
+%to prompt the user of the intervals
+    X = input ('Enter the value of x = ');
 end
 
-N = input ('Please enter the number of data points (n) = ');
+N = input ('Enter the number of data points (n) = ');
 fprintf('\n')
 
-%for errors in the n
+%Setting up N
 while N < 2 || N > 4
     fprintf('\n')
-    disp('Not a valid input (note: enter a value from 2 to 4)') %to prompt the user of the intervals
+    disp('Note: enter a value from 2 to 4') 
+%to prompt the user of the intervals
     N = input ('Please enter the number of data points (n) = ');
     fprintf('\n')
 end
@@ -25,15 +27,15 @@ tableY = [1;-2;2;3];
 
 % at n = 2
 if N == 2
-    lowX1 = floor(X);  %to get the value lower than x 
-    lowY1 = tableY(lowX1); %to get the y value of the value lower than x
-    highX1 = ceil(X);  %to get the value higher than x 
-    highY1 = tableY(highX1); %to get the y value of the value lower than x
+    lowX1 = floor(X);           %to get the value lower than x 
+    lowY1 = tableY(lowX1);      %to get the y value of the value lower than x
+    highX1 = ceil(X);           %to get the value higher than x 
+    highY1 = tableY(highX1);    %to get the y value of the value lower than x
     
-    %for solving:
-    weighlowX1 = (X-lowX1)/(highX1-lowX1); %to get the weighing fxn of the lower value
-    weighhighX1 = (X-highX1)/(lowX1-highX1); %to get the weighing fxn of the lower value
-    Y = (lowY1*weighlowX1)+(highY1*weighhighX1); %to get the y(x)
+    %Solution
+    weighlowX1 = (X-lowX1)/(highX1-lowX1);          %to get the weighing fxn of the lower value
+    weighhighX1 = (X-highX1)/(lowX1-highX1);        %to get the weighing fxn of the lower value
+    Y = (lowY1*weighlowX1)+(highY1*weighhighX1);    %to get the y(x)
     
     fprintf('The value of f(%.3f) is %.3f @ %.0f <= x <= %.0f \n',X,Y,lowX1,highX1);
 end
